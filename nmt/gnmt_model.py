@@ -53,7 +53,7 @@ class GNMTModel(attention_model.AttentionModel):
         scope=scope,
         extra_args=extra_args)
 
-  def _build_encoder(self, hparams):
+  def _build_encoder(self, hparams, embedding_in):
     """Build a GNMT encoder."""
     if hparams.encoder_type == "uni" or hparams.encoder_type == "bi":
       return super(GNMTModel, self)._build_encoder(hparams)
@@ -79,7 +79,7 @@ class GNMTModel(attention_model.AttentionModel):
 
       # Look up embedding, emp_inp: [max_time, batch_size, num_units]
       #   when time_major = True
-      encoder_emb_inp = tf.nn.embedding_lookup(self.embedding_encoder,
+      encoder_emb_inp = tf.nn.embedding_lookup(embedding_in,
                                                source)
 
       # Execute _build_bidirectional_rnn from Model class
